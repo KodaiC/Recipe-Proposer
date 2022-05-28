@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  django-rp:
+    container_name: django-rp
+    build: ./django
+    command: bash -c "python3 manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - ./django:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./django/.env
+    depends_on:
+      - postgres-rp
+    networks:
+      - default
+
+  postgres-rp:
+    container_name: postgres-rp
+    build: ./postgres
+    volumes:
+      - ./postgres/recipe_data:/var/lib/postgresql/data
+      - ./postgres/sql:/docker-entrypoint-initdb.d
+    env_file: ./postgres/.env_db
+    ports:
+      - 5433:5432
+
+  nginx:
+    image: nginx:stable
+    container_name: nginx
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 80:80
+    networks:
+      - default
+    depends_on:
+      - django-rp
+      - nextjs-rp
+
+  nextjs-rp:
+    image: node:lts
+    container_name: nextjs-rp
+    volumes:
+      - ./nextjs:/src
+    working_dir: /src
+    command: [sh, -c, npm install && npm run build && npm run start]
+    ports:
+      - 3000:3000
+    networks:
+      - default
+      
+

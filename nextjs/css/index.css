@@ -1,0 +1,47 @@
+#add {
+    margin-top: 10px;
+}
+
+#switchInclude {
+    margin-top: 10px;
+}
+
+#ingredientsList {
+    margin-top: 30px;
+}
+
+#time {
+    margin-top: 50px;
+}
+
+#display {
+    margin: 70px 0;
+}
+
+#recipes {
+    margin-top: 40px;
+}
+
+.spoiler {
+    margin-top: 10px;
+}
+
+#introduction {
+    margin-top: 50px;
+}
+
+#ingredientForm {
+    margin-top: 50px;
+}
+
+#recipeList {
+    margin-bottom: 70px;
+}
+
+.share {
+    margin: 10px 10px 50px;
+}
+
+body {
+    background-image: url("/img/background.png");
+}
